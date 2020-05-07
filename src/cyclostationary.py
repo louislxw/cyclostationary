@@ -2,6 +2,7 @@
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.fftpack import fft, fftshift
 from numpy.lib.stride_tricks import as_strided
 
 def scd_fam(x, Np, L, N=None):
@@ -45,8 +46,11 @@ def scd_fam(x, Np, L, N=None):
 
     for k in range(Np):
         for l in range(Np):
-            XF2 = np.fft.fft(XD[:,k]*np.conjugate(XD[:,l]))
-            XF2 = np.fft.fftshift(XF2)
+            # XF2 = np.fft.fft(XD[:,k]*np.conjugate(XD[:,l]))
+            # XF2 = np.fft.fftshift(XF2)
+            XM = XD[:, k] * np.conjugate(XD[:, l])
+            XF2 = fft(XM)
+            XF2 = fftshift(XF2)
             XF2 /= P
 
             i = (k+l) // 2
